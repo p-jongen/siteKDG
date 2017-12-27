@@ -1,0 +1,18 @@
+body{
+    background-color: #f3f3f3;
+}
+
+
+.social .chip
+{
+    height: 64px;
+    line-height: 64px;
+    border-radius: 32px;
+    font-size: 17px;
+    padding-right: 20px;
+}
+.social .chip img
+{
+    height: 64px;
+    width: 64px;
+}
