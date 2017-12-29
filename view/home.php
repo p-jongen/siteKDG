@@ -1,8 +1,8 @@
 <?php
 
-include("header.php");
+include("template/header.php");
 
-include("navbar.php");
+include("template/navbar.php");
 
 ?>
 <div class="container">
@@ -18,7 +18,7 @@ include("navbar.php");
                     <a href="https://www.facebook.com/kotdugrenier/" class="social" target="_blank">
                         <div class="chip">
                             <img src="/public/img/facebook.png" alt="Facebook">
-                            Notre facebook
+                            Notre page facebook
                         </div>
                     </a>
                     <a href="https://www.youtube.com/channel/UCr0kcxEZu7q9QyB-pJOtQrQ" class="social" target="_blank">
@@ -52,6 +52,6 @@ include("navbar.php");
 
 
 <?php
-include("footer.php");
+include("template/footer.php");
 
 ?>

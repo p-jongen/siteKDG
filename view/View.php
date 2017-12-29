@@ -13,6 +13,13 @@ class View
     {
         include("404.php");
     }
+
+
+    public static function initiations($initiation,$registered)
+    {
+        $inscription_validated = $registered; 
+        include("initiations.php");
+    }
 }
 
 

@@ -1,7 +1,7 @@
 <?php
 
-include("header.php");
+include("template/header.php");
 echo "erreur 404";
-include("footer.php");
+include("template/footer.php");
 
 ?>

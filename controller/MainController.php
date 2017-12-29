@@ -14,6 +14,8 @@ class MainController
         header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true, 404);
         return View::error404();
     }
+
+
 }
 
 

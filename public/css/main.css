@@ -2,6 +2,14 @@ body{
     background-color: #f3f3f3;
 }
 
+.left-menu-logo
+{
+    width: 50%;
+    display: block;
+    height: auto;
+    margin: 20px auto;
+}
+
 
 .social .chip
 {
@@ -15,4 +23,11 @@ body{
 {
     height: 64px;
     width: 64px;
+}
+
+.tabs-content.carousel .carousel-item { height: 200px; }
+.carousel {
+max-height: 250px;
+overflow: inherit;
+margin-bottom: 70px;
 }
