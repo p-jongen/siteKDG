@@ -38,12 +38,19 @@ include("template/navbar.php");
                 </div>
             </div>
 
+        	<?php if(!isset($initiation) || !$initiation->isRegisterOpen()) {?>
             <div class="card">
                 <div class="card-content">
                     <span class="card-title">Formulaire d'inscription</span>
-                    Le formulaire pour la prochaine initiation n'est pas encore disponible, veuillez revenir le 28/03
+                    Le formulaire pour la prochaine initiation n'est pas encore disponible<?php 
+                    if(isset($initiation))echo(", veuillez revenir le ".$initation->getHumanRegisterDate());
+                    else echo(".")
+                    
+                     ?>
                 </div>
             </div>
+            
+        <?php } else { ?>
 
 
             <div class="card">
@@ -68,7 +75,7 @@ include("template/navbar.php");
                         </div>
                         <h7>A quel jeu de rôle voulez vous jouer?</h7>
                         <?php
-                        $data = $initiation->getTables();
+                        $data = $initiation->getTableAvailable();
                         for($i = 0;$i<count($data);$i++) {
                             ?>
                         <div style="margin:10px;">
@@ -83,6 +90,8 @@ include("template/navbar.php");
                     </form>
                 </div>
             </div>
+            
+        <?php } ?>
         </div>
         <div class="col s12 l3">
             <div class="card">
@@ -90,9 +99,9 @@ include("template/navbar.php");
                     <span class="card-title">prochaines initiations</span>
                     Nos prochaines initiations se déroulent le :
                     <ul class="collection">
-                        <li class="collection-item">21/02</li>
-                        <li class="collection-item">21/03</li>
-                        <li class="collection-item">24/04</li>
+                        <?php foreach($initiations as $ini){ ?>
+                        <li class="collection-item"><?php echo($ini->getHumanDate()); ?></li>
+                    <?php } ?>
                     </ul>
                 </div>
             </div>

@@ -15,7 +15,7 @@ class View
     }
 
 
-    public static function initiations($initiation,$registered)
+    public static function initiations($initiation,$registered,$initiations)
     {
         $inscription_validated = $registered; 
         include("initiations.php");

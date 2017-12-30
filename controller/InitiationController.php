@@ -6,11 +6,28 @@ class InitiationController
 
     public static function initiations()
     {
-        $init = new Initiation("2017-02-25");
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            return InitiationController::registerInitiations($init);
+        $initiations = array();
+        $files = scandir($_SERVER['DOCUMENT_ROOT']."/inscriptions/data/");
+        for($i = 2;$i<count($files);$i++)
+        {
+            $initiations[$i-2] = new Initiation($files[$i]);
+        } 
+        $best = null;
+        for($i = 0;$i<count($initiations);$i++)
+        {
+            if($initiations[$i]->isComing())
+            {
+                if($best == null)$best = $initiations[$i];
+                else if($best->getDate() > $initiations[$i]->getDate())$best = $initiations[$i];
+            }
         }
-        return View::initiations($init,false);
+        $init = $best;
+        
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            return InitiationController::registerInitiations($init,$initiations);
+        }
+        return View::initiations($init,false,$initiations);
     }
 
     public static function white($text)
@@ -20,7 +37,10 @@ class InitiationController
         $text = str_replace(" ", '_', $text);
         return $text;
     }
-    public static function registerInitiations()
+    
+    
+    
+    public static function registerInitiations($initiation,$initiations)
     {
         $data = array();
 
@@ -34,7 +54,7 @@ class InitiationController
             if(isset($mandatory[$i])){
                 $entry = $entry.InitiationController::white($mandatory[$i])." ";
             }
-            else return View::initiations($init,"error");
+            else return View::initiations($init,"error",$initiations);
         }
 
         for($i = 0;$i < count($optionnal);$i++)
@@ -45,9 +65,10 @@ class InitiationController
             }
         }
 
+        $initiation->addEntry($entry);
 
         //fi\le_put_contents("inscriptions/"..".txt", $entry, FILE_APPEND);
-        return View::initiations($init,true);
+        return View::initiations($initiation,true,$initiations);
     }
 
 }
