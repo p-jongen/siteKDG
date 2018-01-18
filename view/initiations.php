@@ -50,12 +50,12 @@ include("template/navbar.php");
                 </div>
             </div>
             
-        <?php } else { ?>
+        <?php } else if( ! (isset($inscription_validated) && $inscription_validated === true)){ ?> 
 
 
             <div class="card">
                 <div class="card-content">
-                    <span class="card-title">Formulaire d'inscription</span>
+                    <span class="card-title">Formulaire d'inscription pour l'initiation du <?php echo $initiation->getHumanDate(); ?></span>
                     <form class="row" method="post" action="/initiations">
                         <div class="input-field col l6 m6 s12">
                             <input name="name" id="name" type="text" class="validate" required>
@@ -79,8 +79,8 @@ include("template/navbar.php");
                         for($i = 0;$i<count($data);$i++) {
                             ?>
                         <div style="margin:10px;">
-                            <input class="with-gap" name="game" type="radio" value="game<?php echo($i); ?>" id="game<?php echo($i); ?>" />
-                            <label for="game<?php echo($i); ?>"><?php echo($data[$i][0]); ?></label>
+                            <input class="with-gap" name="game" type="radio" value="<?php echo($data[$i][1]); ?>" id="<?php echo($data[$i][1]); ?>" />
+                            <label for="<?php echo($data[$i][1]); ?>"><?php echo($data[$i][0]); ?></label>
                         </div>
                         <?php } ?>
                         <button class="btn waves-effect waves-light" type="submit" name="action" style="margin-top:10px;">

@@ -30,6 +30,23 @@ class Initiation
             $i++;
         }
         fclose($file);
+        
+        
+        
+        $filename = $_SERVER['DOCUMENT_ROOT']."/inscriptions/answers/".$id;
+        $file = fopen($filename, "r");
+        
+        if($file)
+        {
+            while(!feof($file)) {
+                $temp = trim(fgets($file));
+                if($temp != "" && $temp != " " && $temp != "\n" && $temp != "\n\r")
+                {
+                    $this->registered[] = $temp;
+                }
+            }
+            fclose($file);
+        }
 
     }
 
@@ -46,6 +63,30 @@ class Initiation
         return $this->start>=$date1;
     }
     
+    
+    public function getNumberAvailableSeat()
+    {
+        $sum = 0;
+        foreach($this->tables as $value=>$t)
+        {
+            $sum+= $this->getNumberAvailableAtTable($value);
+        }
+        
+        return $sum;
+    }
+    
+    public function getNumberAvailableAtTable($which)
+    {
+        $total = $this->tables[$which][1];
+        
+        foreach ($this->registered as $key => $value) {
+            if($value[0] == $which)$total--;
+        }
+        
+        return $total;
+    }
+    
+        
     public function getHumanDate()
     {
         return $this->start->format("d/m");
@@ -66,19 +107,43 @@ class Initiation
         $available = array();
         
         
-        $available[] = array("Peut me chaut, je veux juste jouer !",-1);
+        
+        for($i = 0;$i<count($this->tables);$i++)
+        {
+            if($this->getNumberAvailableAtTable($i) > 0)
+            {
+            
+            $available[] = array($this->tables[$i][0]." (".$this->getNumberAvailableAtTable($i)." places restantes)",$i);
+                
+            }
+        }
+        
+        $available[] = array("Peut me chaut, je veux juste jouer ! (".$this->getNumberAvailableSeat()." places restantes)",-1);
+        
         return $available;
 
     }
 
     public function addEntry($entry)
     {
-        file_put_contents("inscriptions/answers/".$this->id, $entry, FILE_APPEND);
+        $this->registered[] = $entry;
+        $this->saveEntries();
     }
 
     public function getTables()
     {
         return $this->tables;
+    }
+    
+    public function saveEntries()
+    {
+        error_log($this->id);
+        unlink("inscriptions/answers/".$this->id);
+        fopen("inscriptions/answers/".$this->id);
+        foreach ($this->registered as $key => $value) {
+            file_put_contents("inscriptions/answers/".$this->id, $value, FILE_APPEND);
+            file_put_contents("inscriptions/answers/".$this->id, "\n\r", FILE_APPEND);
+        }
     }
 }
 
